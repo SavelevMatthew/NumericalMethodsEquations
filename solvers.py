@@ -47,7 +47,7 @@ class BinarySearchSolver:
 
 
 class NewtonSolver:
-    def __init__(self, function, derivative, second_derivative, a, b, x_start):
+    def __init__(self, function, derivative, second_derivative, a, b, x_start, f1_min, f2_max):
         print(f'Инициализация {COLORS.OK_GREEN}{__class__.__name__}{COLORS.END_C}')
         self.f = function
         self.f1 = derivative
@@ -56,6 +56,8 @@ class NewtonSolver:
         self.a = a
         self.b = b
         self.e = 0.5 * (10 ** -5)
+        self.f1_min = f1_min
+        self.f2_max = f2_max
         print('-' * 64)
 
     def check(self):
@@ -74,11 +76,14 @@ class NewtonSolver:
     def solve(self):
         x = self.x0
         iter_amount = 0
+        # Начальная оценка x
+        dx = self.b - self.a
         while True:
             iter_amount += 1
             new_x = x - (self.f(x) / float(self.f1(x)))
-            if abs(x - new_x) < self.e:
-                print(f'| x_{iter_amount} - x_{iter_amount - 1} | < e = {self.e}. Остановка.')
+            dx = (self.f2_max / float(2.0 * self.f1_min)) * (dx ** 2)
+            if abs(dx) < self.e:
+                print(f'| dx | < e = {self.e}. Остановка.')
                 print(f'Ответ: x = {COLORS.OK_CYAN}{new_x}{COLORS.END_C}')
                 print(f'Количество итераций для вычисления: {iter_amount}')
                 return
@@ -86,18 +91,20 @@ class NewtonSolver:
 
 
 class ModifiedNewtonSolver(NewtonSolver):
-    def __init__(self, function, derivative, second_derivative, a, b, x_start):
+    def __init__(self, function, derivative, second_derivative, a, b, x_start, f1_min, f2_max):
         print(f'Инициализация {COLORS.WARNING}{__class__.__name__}{COLORS.END_C}')
-        super().__init__(function, derivative, second_derivative, a, b, x_start)
+        super().__init__(function, derivative, second_derivative, a, b, x_start, f1_min, f2_max)
 
     def solve(self):
         x = self.x0
         iter_amount = 0
+        dx = self.b - self.a
         while True:
             iter_amount += 1
             new_x = x - (self.f(x) / float(self.f1(self.x0)))
+            dx = (self.f2_max / float(2.0 * self.f1_min)) * (dx ** 2)
             if abs(x - new_x) < self.e:
-                print(f'| x_{iter_amount} - x_{iter_amount - 1} | < e = {self.e}. Остановка.')
+                print(f'| dx | < e = {self.e}. Остановка.')
                 print(f'Ответ: x = {COLORS.OK_CYAN}{new_x}{COLORS.END_C}')
                 print(f'Количество итераций для вычисления: {iter_amount}')
                 return

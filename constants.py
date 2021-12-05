@@ -13,6 +13,12 @@ def f_second_derivative(x):
     return (2.0 * sin(x)) / (cos(x)**3)
 
 
+# min f'(x) = f'(a) для [a;b] c [0; 1] из-за монотонности f''(x)
+f1_min = f_first_derivative(0.5)
+# max f''(x) = f''(1) для [a;b] c [0; 1] из-за мнотонности f''(x)
+f2_max = f_second_derivative(0.6)
+
+
 class COLORS:
     HEADER = '\033[95m'
     OK_BLUE = '\033[94m'
