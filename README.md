@@ -1,13 +1,18 @@
 # Савельев Матвей, КН-402
 
 ### Функция:
-<pre xml:lang="latex">f(x) = tg(x) - 1 + 0.6x </pre>
+```
+f(x) = tg(x) - 1 + 0.6x
+```
 
 ### Первая производная
-<pre xml:lang="latex">f'(x) = \frac{1}{cos^2(x)} + 0.6 </pre>
-
+```
+f'(x) = (1 / cos(x)^2) + 0.6
+```
 ### Вторая производная
-<pre xml:lang="latex">f''(x) = \frac{2sin(x)}{cos^3(x)} </pre>
+```
+f''(x) = 2sin(x) / cos(x)^3
+```
 
 
 ### Содержание:
