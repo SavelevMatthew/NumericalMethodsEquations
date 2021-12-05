@@ -9,13 +9,13 @@ class BinarySearchSolver:
         self.a = a
         self.b = b
         self.e = 0.5 * (10 ** -5)
-        print('=' * 64)
+        print('-' * 64)
 
     def check(self):
         print('Проверка критерия: f(a) * f(b) < 0')
         result = self.f(self.a) * self.f(self.b)
         print(f'f(a) * f(b) = {result}')
-        print('=' * 64)
+        print('-' * 64)
         if result >= 0:
             raise ValueError('Не выполнен критерий f(a)*f(b) < 0')
 
@@ -56,7 +56,7 @@ class NewtonSolver:
         self.a = a
         self.b = b
         self.e = 0.5 * (10 ** -5)
-        print('=' * 64)
+        print('-' * 64)
 
     def check(self):
         print('Проверка критерия: f(a) * f(b) < 0')
@@ -69,7 +69,7 @@ class NewtonSolver:
         print(f'f(x0) * f'f'(x0) = {result}')
         if result <= 0:
             raise ValueError('Не выполнен критерий f(x0) * f''(x0) > 0')
-        print('=' * 64)
+        print('-' * 64)
 
     def solve(self):
         x = self.x0
@@ -85,3 +85,20 @@ class NewtonSolver:
             x = new_x
 
 
+class ModifiedNewtonSolver(NewtonSolver):
+    def __init__(self, function, derivative, second_derivative, a, b, x_start):
+        print(f'Инициализация {COLORS.WARNING}{__class__.__name__}{COLORS.END_C}')
+        super().__init__(function, derivative, second_derivative, a, b, x_start)
+
+    def solve(self):
+        x = self.x0
+        iter_amount = 0
+        while True:
+            iter_amount += 1
+            new_x = x - (self.f(x) / float(self.f1(self.x0)))
+            if abs(x - new_x) < self.e:
+                print(f'| x_{iter_amount} - x_{iter_amount - 1} | < e = {self.e}. Остановка.')
+                print(f'Ответ: x = {COLORS.OK_CYAN}{new_x}{COLORS.END_C}')
+                print(f'Количество итераций для вычисления: {iter_amount}')
+                return
+            x = new_x
