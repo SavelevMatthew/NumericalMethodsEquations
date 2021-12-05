@@ -1,4 +1,4 @@
-from solvers import BinarySearchSolver, NewtonSolver, ModifiedNewtonSolver
+from solvers import BinarySearchSolver, NewtonSolver, ModifiedNewtonSolver, FixedChordSolver, MovingChordSolver
 from constants import f, f_first_derivative, f_second_derivative, f1_min, f2_max
 
 binarySolver = BinarySearchSolver(f, 0, 1)
@@ -12,3 +12,11 @@ print('=' * 64)
 modifiedSolver = ModifiedNewtonSolver(f, f_first_derivative, f_second_derivative, 0.5, 0.6, 0.6, f1_min, f2_max)
 modifiedSolver.check()
 modifiedSolver.solve()
+print('=' * 64)
+fixedChordSolver = FixedChordSolver(f, f_first_derivative, 0.5, 0.6, 0.6, f1_min)
+fixedChordSolver.check()
+fixedChordSolver.solve()
+print('=' * 64)
+movingChordSolver = MovingChordSolver(f, f_first_derivative, 0.5, 0.6, 0.6, f1_min)
+movingChordSolver.check()
+movingChordSolver.solve()

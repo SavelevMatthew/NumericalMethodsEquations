@@ -109,3 +109,57 @@ class ModifiedNewtonSolver(NewtonSolver):
                 print(f'Количество итераций для вычисления: {iter_amount}')
                 return
             x = new_x
+
+
+class FixedChordSolver:
+    def __init__(self, function, derivative, a, b, x_start, f1_min):
+        print(f'Инициализация {COLORS.OK_GREEN}{__class__.__name__}{COLORS.END_C}')
+        self.f = function
+        self.f1 = derivative
+        self.x0 = x_start
+        self.a = a
+        self.b = b
+        self.e = 0.5 * (10 ** -5)
+        self.f1_min = f1_min
+        print('-' * 64)
+
+    def check(self):
+        print('Проверка критерия: f(a) * f(b) < 0')
+        result = self.f(self.a) * self.f(self.b)
+        print(f'f(a) * f(b) = {result}')
+        print('-' * 64)
+        if result >= 0:
+            raise ValueError('Не выполнен критерий f(a)*f(b) < 0')
+
+    def solve(self):
+        x = self.b if self.x0 == self.a else self.a
+        iter_amount = 0
+        while True:
+            iter_amount += 1
+            new_x = x - (self.f(x) / float(self.f(x) - self.f(self.x0))) * (x - self.x0)
+            if abs(self.f(new_x)) / self.f1_min < self.e:
+                print(f'| dx | < e = {self.e}. Остановка.')
+                print(f'Ответ: x = {COLORS.OK_CYAN}{new_x}{COLORS.END_C}')
+                print(f'Количество итераций для вычисления: {iter_amount}')
+                return
+            x = new_x
+
+
+class MovingChordSolver(FixedChordSolver):
+    def __init__(self, function, derivative, a, b, x_start, f1_min):
+        print(f'Инициализация {COLORS.WARNING}{__class__.__name__}{COLORS.END_C}')
+        super().__init__(function, derivative, a, b, x_start, f1_min)
+
+    def solve(self):
+        prev_x = self.x0
+        x = self.b if self.x0 == self.a else self.a
+        iter_amount = 0
+        while True:
+            iter_amount += 1
+            new_x = x - (self.f(x) / float(self.f(x) - self.f(prev_x))) * (x - prev_x)
+            if abs(self.f(new_x)) / self.f1_min < self.e:
+                print(f'| dx | < e = {self.e}. Остановка.')
+                print(f'Ответ: x = {COLORS.OK_CYAN}{new_x}{COLORS.END_C}')
+                print(f'Количество итераций для вычисления: {iter_amount}')
+                return
+            x, prev_x = new_x, x
