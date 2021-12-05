@@ -1,4 +1,4 @@
-from math import tan, cos, sin
+from math import tan, cos, sin, atan
 
 
 def f(x):
@@ -17,6 +17,15 @@ def f_second_derivative(x):
 f1_min = f_first_derivative(0.5)
 # max f''(x) = f''(1) для [a;b] c [0; 1] из-за мнотонности f''(x)
 f2_max = f_second_derivative(0.6)
+
+
+def phi(x):
+    # tan(x) = 1 - 0.6x
+    # x = atan(1 - 0.6x)
+    return atan(1 - 0.6 * x)
+
+
+q = 0.5
 
 
 class COLORS:

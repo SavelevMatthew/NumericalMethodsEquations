@@ -163,3 +163,44 @@ class MovingChordSolver(FixedChordSolver):
                 print(f'Количество итераций для вычисления: {iter_amount}')
                 return
             x, prev_x = new_x, x
+
+
+class SimpleIterationSolver:
+    def __init__(self, function, a, b, phi, q, x0):
+        print(f'Инициализация {COLORS.OK_GREEN}{__class__.__name__}{COLORS.END_C}')
+        self.a = a
+        self.b = b
+        self.f = function
+        self.phi = phi
+        self.q = q
+        self.x0 = x0
+        self.e = 0.5 * (10 ** -5)
+
+    def check(self):
+        print('Проверка критерия: f(a) * f(b) < 0')
+        result = self.f(self.a) * self.f(self.b)
+        print(f'f(a) * f(b) = {result}')
+        if result >= 0:
+            raise ValueError('Не выполнен критерий f(a)*f(b) < 0')
+        mid = (self.a + self.b) / 2.0
+        r = (self.b - self.a) / 2.0
+        print('Проверка критерия: | phi(mid) - mid | <= (1 - q) * r')
+        if abs(self.phi(mid) - mid) > (1 - self.q) * r:
+            print(abs(self.phi(mid) - mid))
+            print((1 - self.q) * r)
+            raise ValueError('Не выполнен критерий | phi(mid) - mid | <= (1 - q) * r')
+        print('-' * 64)
+
+    def solve(self):
+        x0 = self.x0
+        first_diff = max(abs(self.x0 - self.a), abs(self.x0 - self.b))
+        x = x0
+        iter_amount = 0
+        while True:
+            iter_amount += 1
+            x = self.phi(x)
+            if (self.q ** iter_amount) * first_diff < self.e:
+                print(f'| dx | < e = {self.e}. Остановка.')
+                print(f'Ответ: x = {COLORS.OK_CYAN}{x}{COLORS.END_C}')
+                print(f'Количество итераций для вычисления: {iter_amount}')
+                return

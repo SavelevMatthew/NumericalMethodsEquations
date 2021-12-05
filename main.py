@@ -1,5 +1,5 @@
-from solvers import BinarySearchSolver, NewtonSolver, ModifiedNewtonSolver, FixedChordSolver, MovingChordSolver
-from constants import f, f_first_derivative, f_second_derivative, f1_min, f2_max
+from solvers import BinarySearchSolver, NewtonSolver, ModifiedNewtonSolver, FixedChordSolver, MovingChordSolver, SimpleIterationSolver
+from constants import f, f_first_derivative, f_second_derivative, f1_min, f2_max, phi, q
 
 binarySolver = BinarySearchSolver(f, 0, 1)
 binarySolver.check()
@@ -20,3 +20,7 @@ print('=' * 64)
 movingChordSolver = MovingChordSolver(f, f_first_derivative, 0.5, 0.6, 0.6, f1_min)
 movingChordSolver.check()
 movingChordSolver.solve()
+print('=' * 64)
+simpleIterationSolver = SimpleIterationSolver(f, 0.57, 0.59, phi, q, 0.58)
+simpleIterationSolver.check()
+simpleIterationSolver.solve()
