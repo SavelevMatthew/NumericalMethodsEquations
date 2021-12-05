@@ -77,8 +77,8 @@ class NewtonSolver:
         while True:
             iter_amount += 1
             new_x = x - (self.f(x) / float(self.f1(x)))
-            if abs(x - new_x) <= self.e:
-                print(f'Разница между x_{iter_amount} и x_{iter_amount - 1} < e = {self.e}. Остановка.')
+            if abs(x - new_x) < self.e:
+                print(f'| x_{iter_amount} - x_{iter_amount - 1} | < e = {self.e}. Остановка.')
                 print(f'Ответ: x = {COLORS.OK_CYAN}{new_x}{COLORS.END_C}')
                 print(f'Количество итераций для вычисления: {iter_amount}')
                 return
